@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
 from .models import User
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db 
@@ -63,3 +63,57 @@ def sign_up():
             return redirect(url_for('views.home'))
 
     return render_template("sign_up.html", user=current_user)
+
+@auth.route('/promote/<id>', methods=['PUT'])
+#@token_required
+def promote_user(id):#, user, 
+    # if not user.admin:
+    #     return jsonify({'message' : 'Cannot perform that function!'})
+
+    user = User.query.filter_by(id=id).first()
+
+    if not user:
+        return jsonify({'message' : 'No user found!'})
+
+    user.admin = True
+    db.session.commit()
+
+    return jsonify({'message' : 'The user has been promoted!'})
+
+@auth.route('/delete_user/<id>', methods=['DELETE'])
+#@token_required
+def delete_user(id):# user, 
+    # if not user.admin:
+    #     return jsonify({'message' : 'Cannot perform that function!'})
+
+    user = User.query.filter_by(id=id).first()
+
+    if not user:
+        return jsonify({'message' : 'No user found!'})
+
+    db.session.delete(user)
+    db.session.commit()
+
+    return jsonify({'message' : 'The user has been deleted!'})
+
+@auth.route('/show_users', methods=['GET'])
+#@token_required
+def get_all_users():#user
+
+    #if not user.admin:
+        #return jsonify({'message' : 'Cannot perform that function!'})
+
+    users = User.query.all()
+
+    output = []
+
+    for user in users:
+        user_data = {}
+        user_data['id'] = user.id
+        user_data['email'] = user.email
+        user_data['password'] = user.password
+        user_data['first_name'] = user.first_name
+        #user_data['admin'] = user.admin
+        output.append(user_data)
+
+    return jsonify({'users' : output})

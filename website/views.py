@@ -22,6 +22,33 @@ def home():
 
     return render_template("home.html", user=current_user)
 
+@views.route('/notes', methods=['GET', 'POST'])
+@login_required
+def notes():
+    if request.method == 'POST': 
+        note = request.form.get('note')#Gets the note from the HTML 
+
+        if len(note) < 1:
+            flash('Note is too short!', category='error') 
+        else:
+            new_note = Note(data=note, user_id=current_user.id)  #schemat dla notatki
+            db.session.add(new_note) #dodowanie notatki
+            db.session.commit()
+            flash('Note added!', category='success')
+
+    return render_template("notes.html", user=current_user)
+
+@views.route('/courses', methods=['GET'])
+@login_required
+def courses():
+    
+    return render_template("courses.html", user=current_user)
+
+@views.route('/administration_panel', methods=['GET'])
+@login_required
+def administration_panel():
+    
+    return render_template("administration_panel.html", user=current_user)
 
 @views.route('/delete-note', methods=['POST'])
 def delete_note():  

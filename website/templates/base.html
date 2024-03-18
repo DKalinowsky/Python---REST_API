@@ -31,6 +31,17 @@
         <div class="navbar-nav">
           {% if user.is_authenticated %}
           <a class="nav-item nav-link" id="home" href="/">Home</a>
+          <a class="nav-item nav-link" id="courses" href="/courses">Courses</a>
+          <a class="nav-item nav-link" id="notes" href="/notes">Notes</a>
+          <a class="nav-item nav-link" id="administration_panel" href="/administration_panel">Administartion Panel</a>
+          <a class="nav-item nav-link" id="my_account" href="/my_account">My Account</a>
+          <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
+          {% elif user.admin%}
+          <a class="nav-item nav-link" id="home" href="/">Home</a>
+          <a class="nav-item nav-link" id="courses" href="/courses">Courses</a>
+          <a class="nav-item nav-link" id="notes" href="/notes">Notes</a>
+          <a class="nav-item nav-link" id="administration_panel" href="/administration_panel">Administartion Panel</a>
+          <a class="nav-item nav-link" id="my_account" href="/my_account">My Account</a>
           <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
           {% else %}
           <a class="nav-item nav-link" id="login" href="/login">Login</a>

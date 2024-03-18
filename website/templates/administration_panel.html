@@ -1,0 +1,23 @@
+{% extends "base.html" %} 
+{% block title %}Home{% endblock %} 
+{% block content%}
+<form method="POST">
+  <!--TUTAJ COS DO WYSWIETLANIA KURSÓW <textarea name="course" id="course" class="form-control"></textarea>-->
+  <br />
+  <div align="center">
+    <button type="submit" class="btn btn-primary">Show users</button>
+  </div>
+  <br/>
+  <div align="center">
+    <button type="submit" class="btn btn-primary">Delete user</button>
+  </div>
+  <br/>
+  <div align="center">
+    <button type="submit" class="btn btn-primary">Promote user</button>
+  </div>
+  <br/>
+  <div align="center">
+    <button type="submit" class="btn btn-primary">Create a new course</button>
+  </div>
+</form>
+{% endblock %}
