@@ -34,7 +34,6 @@ def logout():
 
 @auth.route('/sign_up', methods=['GET', 'POST'])
 def sign_up():
-
     if request.method == 'POST':
         email = request.form.get('email')
         first_name = request.form.get('firstName')
@@ -117,3 +116,21 @@ def get_all_users():#user
         output.append(user_data)
 
     return jsonify({'users' : output})
+@auth.route('/show_user/<id>', methods=['GET'])
+#@token_required
+def get_one_user(id):#, current_user, 
+
+    # if not current_user.admin:
+    #     return jsonify({'message' : 'Cannot perform that function!'})
+
+    user = User.query.filter_by(id=id).first()
+
+    if not user:
+        return jsonify({'message' : 'No user found!'})
+
+    user_data = {}
+    user_data['id'] = user.id
+    user_data['name'] = user.name
+    #user_data['password'] = user.password
+
+    return jsonify({'user' : user_data})

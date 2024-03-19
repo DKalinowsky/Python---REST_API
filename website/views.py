@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, jsonify
 from flask_login import login_required, current_user
-from .models import Note
+from .models import Note, Course
 from . import db
 import json
 
@@ -44,13 +44,43 @@ def courses():
     
     return render_template("courses.html", user=current_user)
 
+@views.route('/courses/<id>', methods=['GET'])
+#@token_required
+def get_one_courses(id):#current_user, 
+    courses = Course.query.filter_by(id=id).first()#, user_id=current_user.id
+
+    if not courses:
+        return jsonify({'message' : 'No courses found!'})
+
+    courses_data = {}
+    courses_data['id'] = courses.id
+    courses_data['description'] = courses.description
+    courses_data['title'] = courses.title
+    courses_data['complete'] = courses.complete
+
+    return jsonify(courses_data)
+
+@views.route('/courses/<id>', methods=['DELETE'])
+#@token_required
+def delete_courses(courses_id):#,current_user, 
+    courses = Course.query.filter_by(id=id).first()#, , user_id=current_user.id
+
+    if not courses:
+        return jsonify({'message' : 'No courses found!'})
+
+    db.session.delete(courses)
+    db.session.commit()
+
+    return jsonify({'message' : 'courses item deleted!'})
+
+
 @views.route('/administration_panel', methods=['GET'])
 @login_required
 def administration_panel():
     
     return render_template("administration_panel.html", user=current_user)
 
-@views.route('/delete-note', methods=['POST'])
+@views.route('/delete_note', methods=['POST'])
 def delete_note():  
     note = json.loads(request.data)
     noteId = note['noteId']
