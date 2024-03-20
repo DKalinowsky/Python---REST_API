@@ -1,9 +1,4 @@
-from website.models import User 
-from flask import url_for
-import io
-import unittest
-import pandas as pd
-from main import app
+
 import requests
 
 '''def test_signUp(client, app):
@@ -65,7 +60,9 @@ class FlaskTestCase(unittest.TestCase):
     def test_login_user_not_found(self):'''
 
 
-ENDPOINT = "http://127.0.0.1:5000/show_users"
+ENDPOINT = "http://127.0.0.1:5000/"
 
-response = requests.get(ENDPOINT)
-print(response)
+
+def test_can_call_endpoint():
+    response = requests.get(ENDPOINT)
+    assert response.status_code == 200
