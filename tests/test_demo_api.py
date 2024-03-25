@@ -24,16 +24,24 @@ def test_auth_unknown_user(client):
 
     assert b'Email does not exist.' in response.data
 
-def test_create_notes(client):
+def test_create_note_authorised(client):
     response = client.post('/login', data={
         "email":"test@test.pl",
         "password":"password1"
     }, follow_redirects=True)
 
     assert response.status_code == 200
-    
+
     response = client.post('/notes', data={
         "note": "some random text"
     })
 
     assert b'some random text' in response.data
+
+def test_create_note_unauthorised(client):
+    response = client.post('/notes', data={
+        "note": "some random text"
+    })
+
+    # Redirection to login page
+    assert response.status_code == 302
