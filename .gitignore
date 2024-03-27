@@ -1,3 +1,6 @@
 .venv/
 *.db
 *.pyc
+.*
+ZTP.egg-info/
+tests/__pycache__/
