@@ -112,7 +112,7 @@ def get_all_users():#user
         user_data['id'] = user.id
         user_data['email'] = user.email
         user_data['password'] = user.password
-        user_data['firstName'] = user.firstName
+        user_data['firstName'] = user.first_name
         #user_data['admin'] = user.admin
         output.append(user_data)
 
